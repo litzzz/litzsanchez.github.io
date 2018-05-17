@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+
+    <style type="text/css">
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+    <script type="text/javascript">
+        var xpos = 255;
+        var ypos = 25;
+        var xspeed = 2;
+        var yspeed = 2;
+        var xposhand;
+        var timer = 0;
+
+
+
+        function setup() {
+            createCanvas(500, 500);
+            noStroke();
+            fill(random(255), random(255), random(255));
+            rectMode(CENTER);
+        }
+
+
+        function draw() {
+            background(0, 0, 0);
+            drawBall();
+            timerS();
+            boundaries();
+            ballSpeed();
+            paddleBounce();
+        }
+
+        function drawBall() {
+            //this is the ball
+            ellipse(xpos, ypos, 50, 50);
+        }
+
+        function timerS() {
+            //creates timer 
+            textSize(25);
+            timer = timer + 1;
+            text(Math.floor(timer / 60), 30, 60);
+        }
+
+        function boundaries() {
+            //this makes sure that the handle doesn't leave canvas area
+            if (mouseX >= 40 && mouseX <= width - 40) {
+                xposhand = mouseX;
+            }
+            else if (mouseX < 40) {
+                xposhand = 40;
+            }
+            else if (mouseX > width - 40) {
+                xposhand = width - 40;
+            }
+            rect(xposhand, height - 2.5, 80, 5);
+        }
+
+
+        function ballSpeed() {
+            //this is making the ball speeds
+            xpos += xspeed;
+            ypos += yspeed;
+
+            //this is making the ball bounce off of left,top,right edges
+            if (xpos <= 25 || xpos >= width - 25) {
+
+
+                //this is controlling the speed of the ball
+                if (xspeed < 10 && xspeed > -10) {
+                    xspeed = xspeed * (-1.2);
+                }
+                else {
+                    xspeed = xspeed * (-1.01);
+                }
+            }
+            if (ypos <= 25) {
+                if (yspeed < 10 && yspeed > -10) {
+                    yspeed = yspeed * (-1.2);
+                }
+                else {
+                    yspeed = yspeed * (-1.01);
+                }
+            }
+        }
+
+        function paddleBounce() {
+            //this is making the ball bounce off of the bottom handle
+            if (ypos >= height - 25) {
+                if (xpos <= xposhand + 65 && xpos >= xposhand - 65) {
+                    if (yspeed < 10 && yspeed > -10) {
+                        yspeed = yspeed * (-1.2);
+                    }
+                    else {
+                        yspeed = yspeed * (-1.01);
+                    }
+                }
+                else {
+                    textAlign(CENTER);
+                    textFont("Open Sans");
+                    textStyle(BOLD);
+                    text("GAME OVER ", width / 2, height / 2);
+                    noLoop();
+                }
+            }
+        }
+
+
+
+        //this changes the color when the mouse is clicked
+        function mousePressed() {
+            fill(random(255), random(255), random(255));
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>
